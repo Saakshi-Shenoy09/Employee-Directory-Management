@@ -1,0 +1,58 @@
+﻿@model EmployeeUI.Models.AttendanceFilter
+
+
+<div class="justify-content-center align-items-center">
+     <div class="card shadow p-4" style="width: 100%; max-width:500px;">
+        <h2>Attendance Report</h2>
+
+        <form asp-action="Report" method="post" class="mb-3">
+            <div>
+                <label>Employee</label>
+                <select asp-for="EmployeeId" class="form-control">
+                    <option value="">-- Select Employee --</option>
+                    @foreach (var emp in Model.Employees ?? new List<Employee>())
+                    {
+                        <option value="@emp.EmployeeId">@emp.Name (@emp.Department)</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label>From</label>
+                <input asp-for="From" type="date" class="form-control" onclick="this.showPicker()" />
+            </div>
+
+            <div>
+                <label>To</label>
+                <input asp-for="To" type="date" class="form-control" onclick="this.showPicker()" />
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-2">Filter</button>
+        </form>
+    </div>
+</div>
+
+@if (Model.Results != null && Model.Results.Any())
+{
+        <table class="table table-bordered mt-2">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var att in Model.Results)
+            {
+                <tr>
+                    <td>@att.Date.ToShortDateString()</td>
+                    <td>@att.Status</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+}
+else if (Model.Results != null)
+{
+        <p>No records found for selected filters.</p>
+}

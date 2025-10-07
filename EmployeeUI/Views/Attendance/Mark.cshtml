@@ -1,0 +1,40 @@
+﻿@model EmployeeUI.Models.AttendanceEntry
+@{
+    ViewData["Title"] = "Mark Attendance";
+}
+
+<div class="justify-content-center">
+    <div class="card shadow p-4" style="width: 100%; max-width:500px;">
+        <h2>Mark Attendance</h2>
+
+        @await Html.PartialAsync("_Alert")
+
+        <form asp-action="Mark" method="post">
+            <div>
+                <label>Employee</label>
+                <select asp-for="SelectedEmployeeId" class="form-control">
+                    <option value="">-- Select Employee --</option>
+                    @foreach (var emp in Model.Employees ?? new List<Employee>())
+                    {
+                        <option value="@emp.EmployeeId">@emp.Name (@emp.Department)</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label>Status</label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Present">Present</option>
+                    <option value="Absent">Absent</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Date</label>
+                <input asp-for="Date" type="date" class="form-control" onclick="this.showPicker()" />
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+    </div>
+</div>

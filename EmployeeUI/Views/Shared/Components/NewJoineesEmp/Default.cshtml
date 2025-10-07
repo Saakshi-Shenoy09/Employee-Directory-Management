@@ -1,0 +1,16 @@
+﻿@model List<EmployeeUI.Models.Employee>
+
+<div class="card mb-3">
+    <div class="card-header bg-info text-white">
+        New Joinees
+    </div>
+    <ul class="list-group">
+        @foreach (var emp in Model)
+        {
+            <li class="list-group-item">
+                <strong>@emp.Name</strong> - @emp.Department<br />
+                <p>Joined: @emp.JoinDate.ToShortDateString()</p>
+            </li>
+        }
+    </ul>
+</div>

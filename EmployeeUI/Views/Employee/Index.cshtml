@@ -1,0 +1,60 @@
+﻿@model List<EmployeeUI.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employee Directory";
+    bool showDepartment = ViewBag.ShowDepartment ?? true;
+}
+
+<h2>Employee Directory</h2>
+
+<form method="get" class="mb-3">
+    <div>
+        <input type="text" name="name" placeholder="Search by name" value="@(Context.Request.Query["name"])" />
+        <input type="text" name="department" placeholder="Search by department" value="@(Context.Request.Query["department"])" />
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-8">
+        @if (!Model.Any())
+        {
+            <p>No employees found.</p>
+        }
+        else
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        @if (showDepartment == true)
+                        {
+                            <th>Department</th>
+                        }
+                        <th>Join Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var emp in Model)
+                    {
+                        <tr>
+                            <td>@emp.Name</td>
+                            <td>@emp.Email</td>
+                            @if (showDepartment == true)
+                            {
+                                <td>@emp.Department</td>
+                            }
+                            <td>@emp.JoinDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <h4>Recently Joined</h4>
+        @await Component.InvokeAsync("NewJoineesEmp")
+    </div>
+</div>
